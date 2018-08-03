@@ -38,10 +38,10 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param inputFormat
-     * @param outputFormat
-     * @return
-     * @throws Exception
+     * @param inputFormat - incoming file format
+     * @param outputFormat - outgoing file format
+     * @return - Returns our ConvertProcess
+     * @throws Exception - thrown if the sh*t has hit the fan
      */
     public ConvertProcess getProcess(String inputFormat, String outputFormat) throws Exception
     {
@@ -64,13 +64,13 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param convertProcess
-     * @param inputFormat
-     * @param outputFormat
-     * @param input
-     * @param fileUrl
-     * @return
-     * @throws Exception
+     * @param convertProcess - The active converter process
+     * @param inputFormat - incoming file format
+     * @param outputFormat - outgoing file format
+     * @param input - Identifies how the file will be going to the converter
+     * @param fileUrl - url of the file being converted
+     * @return - Returns our StartConversion
+     * @throws Exception - thrown if the sh*t has hit the fan
      */
     public StartConversion startConversion(ConvertProcess convertProcess, String inputFormat, String outputFormat, String input, String fileUrl) throws Exception
     {
@@ -97,10 +97,10 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param startConversion
-     * @param wait
-     * @return
-     * @throws Exception
+     * @param startConversion - Started conversion
+     * @param wait - Wait boolean to tell the converter to wait until it's complete
+     * @return - Returns our ConversionStatus
+     * @throws Exception - thrown if the sh*t has hit the fan
      */
     public ConversionStatus getConversionStatus(StartConversion startConversion, boolean wait) throws Exception
     {
@@ -109,10 +109,10 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param processUrl
-     * @param wait
-     * @return
-     * @throws Exception
+     * @param processUrl - Process url you are checking the status on
+     * @param wait - Wait boolean to tell the converter to wait until it's complete
+     * @return - Returns our ConversionStatus
+     * @throws Exception - thrown if the sh*t has hit the fan
      */
     public ConversionStatus getConversionStatus(String processUrl, boolean wait) throws Exception
     {
@@ -140,10 +140,10 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param apiUrl
-     * @param oAuthToken
-     * @param parameters
-     * @return
+     * @param apiUrl - Url of the api
+     * @param oAuthToken - Authorization token for the API
+     * @param parameters - Parameters for the API call
+     * @return - Returns our JSON response
      */
     private JSONObject post(String apiUrl, String oAuthToken, Map<String, Object> parameters)
     {
@@ -171,10 +171,10 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param apiUrl
-     * @param oAuthToken
-     * @param parameters
-     * @return
+     * @param apiUrl - Url of the api
+     * @param oAuthToken - Authorization token for the API
+     * @param parameters - Parameters for the API call
+     * @return - Returns our JSON response
      */
     private JSONObject get(String apiUrl, String oAuthToken, Map<String, Object> parameters)
     {
