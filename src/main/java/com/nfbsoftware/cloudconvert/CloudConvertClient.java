@@ -40,7 +40,6 @@ public class CloudConvertClient
      * 
      * @param inputFormat
      * @param outputFormat
-     * @param mode
      * @return
      * @throws Exception
      */
@@ -66,10 +65,10 @@ public class CloudConvertClient
     /**
      * 
      * @param convertProcess
+     * @param inputFormat
+     * @param outputFormat
      * @param input
      * @param fileUrl
-     * @param outputFormat
-     * @param mode
      * @return
      * @throws Exception
      */
@@ -85,9 +84,10 @@ public class CloudConvertClient
         parameters.put("input", input);
         parameters.put("file", fileUrl);
                 
+        // Send our request to CloudConvert
         JSONObject responseJSON = post(fullApiUrl.toString(), this.m_apiKey, parameters);
-        System.out.println(responseJSON);
         
+        // Map our json response to our object models.
         ObjectMapper mapper = new ObjectMapper();
         StartConversion objectValue = mapper.readValue(responseJSON.toString(),  StartConversion.class);
         
@@ -97,15 +97,28 @@ public class CloudConvertClient
     
     /**
      * 
-     * @param convertProcess
+     * @param startConversion
+     * @param wait
      * @return
      * @throws Exception
      */
     public ConversionStatus getConversionStatus(StartConversion startConversion, boolean wait) throws Exception
     {
+        return getConversionStatus(startConversion.getUrl(), wait);
+    }
+    
+    /**
+     * 
+     * @param processUrl
+     * @param wait
+     * @return
+     * @throws Exception
+     */
+    public ConversionStatus getConversionStatus(String processUrl, boolean wait) throws Exception
+    {
         StringBuffer fullApiUrl = new StringBuffer();
         fullApiUrl.append("https:");
-        fullApiUrl.append(startConversion.getUrl());
+        fullApiUrl.append(processUrl);
         
         Map<String, Object> parameters = new HashMap<String, Object>();
         
@@ -114,9 +127,10 @@ public class CloudConvertClient
             parameters.put("wait", wait);
         }
                 
+        // Send our request to CloudConvert
         JSONObject responseJSON = get(fullApiUrl.toString(), this.m_apiKey, parameters);
-        System.out.println(responseJSON);
         
+        // Map our json response to our object models.
         ObjectMapper mapper = new ObjectMapper();
         ConversionStatus objectValue = mapper.readValue(responseJSON.toString(),  ConversionStatus.class);
         

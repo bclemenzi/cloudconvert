@@ -15,7 +15,7 @@ import com.nfbsoftware.cloudconvert.model.StartConversion;
  */
 public class CloudConvertModelTest
 {
-    private String API_KEY = "MY_API_KEY"; // set your api key
+    private String API_KEY = "MY_API_KEY_GOES_HERE"; // set your api key
 
     /**
      * 
@@ -59,11 +59,11 @@ public class CloudConvertModelTest
         try
         {
             // Check the status
-            ConversionStatus conversionStatusValue = cloudConvertClient.getConversionStatus(startConversionValue, true);
+            ConversionStatus conversionStatusValue = cloudConvertClient.getConversionStatus(startConversionValue.getUrl(), true);
             
-            System.out.println(conversionStatusValue.getId());
-            System.out.println(conversionStatusValue.getStep());
-            System.out.println(conversionStatusValue.getPercent());
+            // Get our download link
+            System.out.println("Converted Filename:  " + conversionStatusValue.getOutput().getFilename());
+            System.out.println("Converted File Download Link:  https:" + conversionStatusValue.getOutput().getUrl());
 
             if (startConversionValue != null)
             {
