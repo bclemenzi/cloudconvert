@@ -30,11 +30,8 @@ public class CloudConvertModelTest
 
         ConvertProcess processValue = cloudConvertClient.getProcess("flv", "mp4");
         System.out.println("testProcess Name: " + processValue.getId());
-
-        if (processValue != null)
-        {
-            assertTrue(true);
-        }
+        
+        assertTrue(true);
 
         System.out.println("====> Finished CloudConvertModelTest.testConvertProcess");
     }
@@ -64,17 +61,14 @@ public class CloudConvertModelTest
             // Get our download link
             System.out.println("Converted Filename:  " + conversionStatusValue.getOutput().getFilename());
             System.out.println("Converted File Download Link:  https:" + conversionStatusValue.getOutput().getUrl());
-
-            if (startConversionValue != null)
-            {
-                assertTrue(true);
-            }
         }
         catch (Exception e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        assertTrue(true);
 
         System.out.println("====> Finished CloudConvertModelTest.testDownloadConvert");
     }
