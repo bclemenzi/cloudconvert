@@ -19,7 +19,7 @@ The easiest way to incorporate the library into your Java project is to use Mave
 
 ```xml
 <dependency>
-    <groupId>com.nfbsoftware</groupId>
+	<groupId>com.nfbsoftware</groupId>
 	<artifactId>cloudconvert</artifactId>
 	<version>1.0.0</version>
 </dependency>
