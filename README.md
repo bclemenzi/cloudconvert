@@ -43,7 +43,7 @@ In order to start a new conversion you need to create a new Process ID first. Ea
 
 ```java					
 String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerbglkajdbf";
-CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY);
+CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
 
 // Request a new process id
 ConvertProcess processValue = cloudConvertClient.getProcess("flv", "mp4");
@@ -55,7 +55,7 @@ Get the actual conversion started for a file with a public file url.
 
 ```java					
 String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerbglkajdbf";
-CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY);
+CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
 
 // Request a new process id
 ConvertProcess processValue = cloudConvertClient.getProcess("pdf", "html");
@@ -69,7 +69,7 @@ Check the status of a previous requested conversion
 
 ```java					
 String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerbglkajdbf";
-CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY);
+CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
 
 // Request a new process id
 ConvertProcess processValue = cloudConvertClient.getProcess("pdf", "html");
@@ -85,4 +85,24 @@ ConversionStatus conversionStatusValue = cloudConvertClient.getConversionStatus(
 System.out.println("Converted Filename:  " + conversionStatusValue.getOutput().getFilename());
 System.out.println("Converted File Download Link:  https:" + conversionStatusValue.getOutput().getUrl());
 ```	
+
+Check the status of a previous requested conversion using the full StartConversion object
+
+```java					
+String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerbglkajdbf";
+CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
+
+// Request a new process id
+ConvertProcess processValue = cloudConvertClient.getProcess("pdf", "html");
+        
+// Convert the pdf hosted publicly
+String myOriginalFileUrl = "https://raw.githubusercontent.com/bclemenzi/cloudconvert/master/doc_samples/sample.pdf";
+StartConversion startConversionValue = cloudConvertClient.startConversion(processValue, "pdf", "html", "download", myOriginalFileUrl);
+
+// Check the status of the started converssion.  The boolean tells the API if we should wait for a FINISHED step.
+ConversionStatus conversionStatusValue = cloudConvertClient.getConversionStatus(startConversionValue, true);
+            
+// Get our download link
+System.out.println("Converted Filename:  " + conversionStatusValue.getOutput().getFilename());
+System.out.println("Converted File Download Link:  https:" + conversionStatusValue.getOutput().getUrl());
 
