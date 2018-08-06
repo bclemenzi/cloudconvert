@@ -26,7 +26,7 @@ public class CloudConvertModelTest
     {
         System.out.println("====> Starting CloudConvertModelTest.testConvertProcess");
 
-        CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY);
+        CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY, false);
 
         ConvertProcess processValue = cloudConvertClient.getProcess("flv", "mp4");
         System.out.println("testProcess Name: " + processValue.getId());
@@ -45,7 +45,7 @@ public class CloudConvertModelTest
     {
         System.out.println("====> Starting CloudConvertModelTest.testDownloadConvert");
 
-        CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY);
+        CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY, false);
 
         ConvertProcess processValue = cloudConvertClient.getProcess("pdf", "html");
         
@@ -60,7 +60,7 @@ public class CloudConvertModelTest
             
             // Get our download link
             System.out.println("Converted Filename:  " + conversionStatusValue.getOutput().getFilename());
-            System.out.println("Converted File Download Link:  https:" + conversionStatusValue.getOutput().getUrl());
+            System.out.println("Converted File Download Link:  http:" + conversionStatusValue.getOutput().getUrl());
         }
         catch (Exception e)
         {

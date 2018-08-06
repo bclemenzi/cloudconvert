@@ -23,17 +23,27 @@ public class CloudConvertClient
 {
     private static final Log logger = LogFactory.getLog(CloudConvertClient.class);
 
-    private static final String CC_BASE_URL = "https://api.cloudconvert.com/";
+    private static final String CC_BASE_URL = "//api.cloudconvert.com/";
     
     private String m_apiKey;
+    private String m_protocol;
     
     /**
      * 
      * @param apiKey - CloudConvert API Key
      */
-    public CloudConvertClient(String apiKey)
+    public CloudConvertClient(String apiKey, boolean useSSL)
     {
         m_apiKey = apiKey;
+        
+        if(useSSL)
+        {
+            m_protocol = "https:";
+        }
+        else
+        {
+            m_protocol = "http:";
+        }
     }
     
     /**
@@ -46,7 +56,7 @@ public class CloudConvertClient
     public ConvertProcess getProcess(String inputFormat, String outputFormat) throws Exception
     {
         StringBuffer fullApiUrl = new StringBuffer();
-        fullApiUrl.append(CC_BASE_URL);
+        fullApiUrl.append(m_protocol + CC_BASE_URL);
         fullApiUrl.append("process");
         
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -75,7 +85,7 @@ public class CloudConvertClient
     public StartConversion startConversion(ConvertProcess convertProcess, String inputFormat, String outputFormat, String input, String fileUrl) throws Exception
     {
         StringBuffer fullApiUrl = new StringBuffer();
-        fullApiUrl.append("https:");
+        fullApiUrl.append(m_protocol);
         fullApiUrl.append(convertProcess.getUrl());
         
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -117,7 +127,7 @@ public class CloudConvertClient
     public ConversionStatus getConversionStatus(String processUrl, boolean wait) throws Exception
     {
         StringBuffer fullApiUrl = new StringBuffer();
-        fullApiUrl.append("https:");
+        fullApiUrl.append(m_protocol);
         fullApiUrl.append(processUrl);
         
         Map<String, Object> parameters = new HashMap<String, Object>();
