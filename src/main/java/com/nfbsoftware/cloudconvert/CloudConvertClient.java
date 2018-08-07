@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goebl.david.Response;
 import com.goebl.david.Webb;
 import com.goebl.david.WebbException;
 import com.nfbsoftware.cloudconvert.model.ConversionStatus;
@@ -155,7 +156,7 @@ public class CloudConvertClient
      * @param parameters - Parameters for the API call
      * @return - Returns our JSON response
      */
-    private JSONObject post(String apiUrl, String oAuthToken, Map<String, Object> parameters)
+    private JSONObject post(String apiUrl, String oAuthToken, Map<String, Object> parameters) throws Exception
     {
         Webb webb = Webb.create();
         webb.setDefaultHeader(Webb.HDR_AUTHORIZATION, "Bearer " + oAuthToken);
@@ -169,11 +170,50 @@ public class CloudConvertClient
                 .ensureSuccess()
                 .asJsonObject()
                 .getBody();
+            
+            // If successful all a response code of zero
+            jsonObject.put("code", new Integer("200"));
+            jsonObject.put("error", "");
         }
         catch (WebbException we)
         {
-            logger.error("Error executing apiUrl: " + apiUrl + "  Error: " + we.getMessage());
-            jsonObject = new JSONObject();
+            Response<?> serverResponse = we.getResponse();
+            
+            if(serverResponse != null)
+            {
+                int statusCode = serverResponse.getStatusCode();
+                if(statusCode==400)
+                {
+                    logger.error("Error 400:  CloudConvert conversion failed because some parameters are missing or wrong."); 
+                }
+                if(statusCode==422)
+                {
+                    logger.error("Error 422:  CloudConvert conversion failed because of a conversion error. Most likely the input file is corrupt or some parameters are wrong. message contains the error description."); 
+                }
+                if(statusCode==429)
+                {
+                    logger.error("Error 429:  CloudConvert API has throttled your requests.  Please try again later."); 
+                }
+                if(statusCode==503)
+                {
+                    logger.error("Error 503:  CloudConvert API has throttled your requests.  Please retry after 30 seconds."); 
+                }   
+                
+                JSONObject statusObject = (JSONObject)serverResponse.getErrorBody();
+                
+                if(statusObject != null)
+                {
+                    jsonObject = statusObject;
+                }
+            }
+            else
+            {
+                logger.error("Error executing apiUrl: " + apiUrl + "  Error: " + we.getMessage()); 
+                
+                jsonObject = new JSONObject();
+                jsonObject.put("code", new Integer("406"));
+                jsonObject.put("error", "Error executing API call");
+            }
         }
         
         return jsonObject;
@@ -186,7 +226,7 @@ public class CloudConvertClient
      * @param parameters - Parameters for the API call
      * @return - Returns our JSON response
      */
-    private JSONObject get(String apiUrl, String oAuthToken, Map<String, Object> parameters)
+    private JSONObject get(String apiUrl, String oAuthToken, Map<String, Object> parameters) throws Exception
     {
         Webb webb = Webb.create();
         webb.setDefaultHeader(Webb.HDR_AUTHORIZATION, "Bearer " + oAuthToken);
@@ -200,11 +240,50 @@ public class CloudConvertClient
                 .ensureSuccess()
                 .asJsonObject()
                 .getBody();
+            
+            // If successful all a response code of zero
+            jsonObject.put("code", new Integer("200"));
+            jsonObject.put("error", "");
         }
         catch (WebbException we)
         {
-            logger.error("Error executing apiUrl: " + apiUrl + "  Error: " + we.getMessage());
-            jsonObject = new JSONObject();
+            Response<?> serverResponse = we.getResponse();
+            
+            if(serverResponse != null)
+            {
+                int statusCode = serverResponse.getStatusCode();
+                if(statusCode==400)
+                {
+                    logger.error("Error 400:  CloudConvert conversion failed because some parameters are missing or wrong."); 
+                }
+                if(statusCode==422)
+                {
+                    logger.error("Error 422:  CloudConvert conversion failed because of a conversion error. Most likely the input file is corrupt or some parameters are wrong. message contains the error description."); 
+                }
+                if(statusCode==429)
+                {
+                    logger.error("Error 429:  CloudConvert API has throttled your requests.  Please try again later."); 
+                }
+                if(statusCode==503)
+                {
+                    logger.error("Error 503:  CloudConvert API has throttled your requests.  Please retry after 30 seconds."); 
+                }   
+                
+                JSONObject statusObject = (JSONObject)serverResponse.getErrorBody();
+                
+                if(statusObject != null)
+                {
+                    jsonObject = statusObject;
+                }
+            }
+            else
+            {
+                logger.error("Error executing apiUrl: " + apiUrl + "  Error: " + we.getMessage()); 
+                
+                jsonObject = new JSONObject();
+                jsonObject.put("code", new Integer("406"));
+                jsonObject.put("error", "Error executing API call");
+            }
         }
         
         return jsonObject;

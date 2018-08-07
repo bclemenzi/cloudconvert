@@ -21,7 +21,7 @@ The easiest way to incorporate the library into your Java project is to use Mave
 <dependency>
     <groupId>com.nfbsoftware</groupId>
     <artifactId>cloudconvert</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -39,7 +39,7 @@ String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerb
 CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
 ```
 
-In order to start a new conversion you need to create a new Process ID first. Each Process ID is for one-time use only and can only be used for converting one file.
+In order to start a new conversion you need to create a new Process ID first. Each Process ID is for one-time use only and can only be used for converting one file.  All of the objects returned from the CloudConvertClient have been fitted with a Code and Error element.  If the code returned is 200, then the transaction was a success.  If the error is something other than 200, check the Error element to read the message returned.
 
 ```java					
 String myApiKey = "ajhsdflaksjdhfalskjdhfalksdjhfalksdjhfalksdhflaiusehrflkajerbglkajdbf";
@@ -48,7 +48,16 @@ CloudConvertClient cloudConvertClient = new CloudConvertClient(myApiKey);
 // Request a new process id
 ConvertProcess processValue = cloudConvertClient.getProcess("flv", "mp4");
 
-System.out.println("processValue ID: " + processValue.getId());
+// If the code returned is equal to zero, then we have a success
+if(processValue.getCode()==0)
+{
+	System.out.println("processValue ID: " + processValue.getId());
+}
+else
+{
+	System.out.println("Error Code: " + processValue.getCode());
+	System.out.println("Error Message: " + processValue.getError());
+}
 ```	
 
 Get the actual conversion started for a file with a public file url.

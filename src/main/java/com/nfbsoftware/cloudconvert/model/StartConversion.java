@@ -11,7 +11,9 @@ public class StartConversion
 	private String m_step;
 	private String m_expire;
 	private String m_message;
-	
+	private String m_error;
+	    
+	private int m_code;
 	private int m_percent;
 	private int m_starttime;
 	
@@ -90,6 +92,22 @@ public class StartConversion
     {
         m_output = output;
     }
-	
-
+    
+    public String getError()
+    {
+        return m_error;
+    }
+    public void setError(String error)
+    {
+        m_error = error;
+    }
+    
+    public int getCode()
+    {
+        return m_code;
+    }
+    public void setCode(int code)
+    {
+        m_code = code;
+    }
 }

@@ -29,9 +29,20 @@ public class CloudConvertModelTest
         CloudConvertClient cloudConvertClient = new CloudConvertClient(API_KEY, false);
 
         ConvertProcess processValue = cloudConvertClient.getProcess("flv", "mp4");
-        System.out.println("testProcess Name: " + processValue.getId());
         
-        assertTrue(true);
+        // Check for a successful transaction
+        if(processValue.getCode()==200)
+        {
+            System.out.println("testProcess Name: " + processValue.getId());
+        
+            assertTrue(true);
+        }
+        else
+        {
+            System.out.println("TestProcess Error Code: " + processValue.getCode() + "  Error Message: " + processValue.getError());
+            
+            assertTrue(false);
+        }
 
         System.out.println("====> Finished CloudConvertModelTest.testConvertProcess");
     }

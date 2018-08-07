@@ -10,7 +10,9 @@ public class ConvertProcess
 	private String m_url;
 	private String m_host;
 	private String m_expires;
+	private String m_error;
 	
+	private int m_code;
 	private int m_maxtime;
 	private int m_minutes;
 	
@@ -66,5 +68,23 @@ public class ConvertProcess
     public void setMinutes(int minutes)
     {
         m_minutes = minutes;
+    }
+    
+    public String getError()
+    {
+        return m_error;
+    }
+    public void setError(String error)
+    {
+        m_error = error;
+    }
+    
+    public int getCode()
+    {
+        return m_code;
+    }
+    public void setCode(int code)
+    {
+        m_code = code;
     }
 }
