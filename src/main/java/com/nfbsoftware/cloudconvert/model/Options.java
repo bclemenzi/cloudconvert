@@ -7,6 +7,7 @@ public class Options
     private String m_bg_format;
     private String m_input_password;
     private String m_templating;
+    private String m_space_as_offset;
     
     private boolean m_split_pages;
     private boolean m_simple_html;
@@ -164,5 +165,14 @@ public class Options
     public void setPage_height(int page_height)
     {
         m_page_height = page_height;
+    }
+    
+    public String getSpace_as_offset()
+    {
+        return m_space_as_offset;
+    }
+    public void setSpace_as_offset(String space_as_offset)
+    {
+        m_space_as_offset = space_as_offset;
     }
 }
